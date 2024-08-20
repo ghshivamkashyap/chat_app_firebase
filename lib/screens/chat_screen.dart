@@ -1,6 +1,7 @@
 import 'package:chat_app_firebase/widgets/chat_messages.dart';
 import 'package:chat_app_firebase/widgets/new_message.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 
 class ChatScreen extends StatefulWidget {
@@ -12,10 +13,20 @@ class ChatScreen extends StatefulWidget {
 
 class _ChatScreenState extends State<ChatScreen> {
   @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
+  void setupNotifications() async {
+    final firebaseMessage = FirebaseMessaging.instance;
+    await firebaseMessage.requestPermission();
+
+    final token = await firebaseMessage.getToken();
+    firebaseMessage.subscribeToTopic('chat');
+    // print('Token is------------------------------------------------------------: $token');
   }
+
+  void initState() {
+    super.initState();
+    setupNotifications();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

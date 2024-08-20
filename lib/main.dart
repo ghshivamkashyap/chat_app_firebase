@@ -33,8 +33,6 @@ class App extends StatelessWidget {
             return SplashScreen();
           }
           if (snapshot.hasData) {
-            // print(
-            //     "hasData**************************************************************  $snapshot");
             return const ChatScreen();
           }
 
